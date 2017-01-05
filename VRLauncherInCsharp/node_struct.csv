@@ -1,0 +1,66 @@
+ID,parent_ID,Name,Last_Node
+0,\N,Shooters,0
+1,\N,RPG,1
+2,\N,Multiplayer,0
+3,\N,Sports,0
+4,\N,Casual,0
+5,\N,Experience/Movies,0
+6,\N,Escape Rooms,0
+7,\N,Swords,1
+8,\N,Driving,1
+9,\N,Music/Rhythm,0
+10,\N,Horror,0
+11,\N,Adventure,0
+12,\N,Strategy,0
+13,\N,Sanbox,1
+14,0,With Bows,0
+15,0,Without Bows,0
+16,14,With movement,1
+17,14,No movement,1
+18,15,With movement,0
+19,15,No movement,0
+20,18,Teleport,1
+21,18,Sliding,1
+22,18,Waypoints,1
+23,18,Flying,1
+24,19,Wave Shooter,1
+25,19,Level Progression,1
+26,2,Online,1
+27,2,Asymmetrical,1
+28,3,Uses Paddle,1
+29,3,Uses Stick-like,1
+30,3,Others,1
+31,4,Puzzle,0
+32,4,Cooking,1
+33,4,Others,0
+34,33,With movement,0
+35,33,No movement,0
+36,34,Teleport,1
+37,34,Sliding,1
+38,34,Move in Place,1
+39,34,6 Degrees of Freedom,1
+40,34,Swing,1
+41,34,Waypoints,1
+42,35,Standing,1
+43,35,Seated,1
+44,10,Shooter,1
+45,10,Non-shooter,1
+46,11,With movement,0
+47,11,No movement,0
+48,45,Teleport,1
+49,45,Sliding,1
+50,45,Move in Place,1
+51,45,Waypoints,1
+52,45,Swing,1
+53,45,6 Degrees of Freedom,1
+54,46,Standing,1
+55,46,Seated,1
+56,12,Tower Defense,1
+57,12,Non-TD,1
+58,31,Seated,1
+59,31,Standing,1
+60,31,Teleport,1
+61,5,Experience,1
+62,5,Movies,1
+63,9,Standing,1
+64,9,Seating,1
