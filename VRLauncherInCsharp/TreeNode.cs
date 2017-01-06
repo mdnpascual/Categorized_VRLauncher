@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Source: https://github.com/gt4dev/yet-another-tree-structure/tree/master/csharp/CSharpTree
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +60,7 @@ public class TreeNode<T> : IEnumerable<TreeNode<T>>
 
     #region searching
 
-    private ICollection<TreeNode<T>> ElementsIndex { get; set; }
+    public ICollection<TreeNode<T>> ElementsIndex { get; set; }
 
     private void RegisterChildForSearch(TreeNode<T> node)
     {

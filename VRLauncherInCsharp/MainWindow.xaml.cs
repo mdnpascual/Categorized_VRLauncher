@@ -24,6 +24,7 @@ namespace VRLauncherInCsharp
     {
         String path = Environment.CurrentDirectory;
         String ID, Key;
+        TreeNode<List<String>> filteredStruct;
         public MainWindow()
         {
             InitializeComponent();
@@ -99,8 +100,32 @@ namespace VRLauncherInCsharp
             TreeNode<List<String>> treeStruct = List_to_Tree(nodeList);
 
             this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Adding Games to Tree Structure"; }));
-            TreeNode<List<String>> filteredStruct = Add_Games_to_Tree(treeStruct, filteredList);
-            
+            filteredStruct = Add_Games_to_Tree(treeStruct, filteredList);
+
+            ///////////MOVE THIS CODE BLOCK///////////
+            int i = 1;
+            int j = filteredStruct.ElementsIndex.Count;
+
+            while (i < j)
+            {
+                if (filteredStruct.ElementAt(i).Data.Count == 4)
+                {
+                    Console.WriteLine(filteredStruct.ElementAt(i).Data[2]);
+                }
+                else
+                {
+                    Console.WriteLine(filteredStruct.ElementAt(i).Data[1]);
+                }
+                i++;
+            }
+            ///////////MOVE THIS CODE BLOCK///////////
+
+            Graphics_main(filteredStruct);
+
+            this.Dispatcher.Invoke((Action)(() => { mainWindow.Width = 1920; }));
+            this.Dispatcher.Invoke((Action)(() => { mainWindow.Height = 1020; }));
+            this.Dispatcher.Invoke((Action)(() => { mainWindow.Top = 0; }));
+            this.Dispatcher.Invoke((Action)(() => { mainWindow.Left = 0; }));             
             Console.WriteLine("done");
         }
 
@@ -226,6 +251,112 @@ namespace VRLauncherInCsharp
                 i++;
             }
             return treeStruct;
+        }
+
+        private void Node_Click(object sender, RoutedEventArgs e)
+        {
+            Button node = (Button)sender;
+            int count = 0;
+
+            if (node.Content.Equals("Start"))
+            {
+                count = filteredStruct.Children.Count;
+                double degree = 360 / 14;
+            }
+            
+            Console.WriteLine(node.Content);
+        }
+
+        private void Graphics_main(TreeNode<List<String>> filteredStruct)
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                second.Visibility = System.Windows.Visibility.Hidden;
+
+                Style style2 = new Style(typeof(Line));
+                style2.Setters.Add(new Setter(Line.StrokeThicknessProperty, 1.0));
+                style2.Setters.Add(new Setter(Line.StrokeProperty, Brushes.Black));
+                style2.Setters.Add(new Setter(Line.VerticalAlignmentProperty, System.Windows.VerticalAlignment.Top));
+                style2.Setters.Add(new Setter(Line.HorizontalAlignmentProperty, System.Windows.HorizontalAlignment.Left));
+                Resources.Add(typeof(Line), style2);
+
+                Canvas customCanvas = new Canvas();
+                customCanvas.Width = 1900;
+                customCanvas.Height = 1000;
+                customCanvas.Background = Brushes.LightSteelBlue;
+
+                int i = 1;
+                int j = filteredStruct.ElementsIndex.Count;
+
+                Button[] butList = new Button[j];
+                Line[] L = new Line[j];
+
+                while (i < j)
+                {
+                    butList[i] = new Button();
+   
+                    if (filteredStruct.ElementAt(i).Data.Count == 4)    //Nodes
+                    {
+                        butList[i].Style = (Style)FindResource("NodeOrange");
+                        butList[i].FontSize = 16;
+                        butList[i].Height = 100;
+                        butList[i].Width = 100;
+                        butList[i].Content = filteredStruct.ElementAt(i).Data[2];
+                        Canvas.SetLeft(butList[i], 200);
+                        Canvas.SetTop(butList[i], 200);
+                    }
+                    else
+                    {
+                        butList[i].Style = (Style)FindResource("NodeYellow");
+                        butList[i].FontSize = 16;
+                        butList[i].Height = 80;
+                        butList[i].Width = 80;
+                        butList[i].Content = filteredStruct.ElementAt(i).Data[1];
+                        Canvas.SetLeft(butList[i], 500);
+                        Canvas.SetTop(butList[i], 500);
+                    }
+
+                    //Canvas.SetLeft(butList[i], customCanvas.Width / 2);
+                    //Canvas.SetTop(butList[i], customCanvas.Height / 2);
+                    customCanvas.Children.Add(butList[i]);
+
+                    L[i] = new Line();
+                    //L[i].StrokeThickness = 1;
+                    //L[i].Stroke = Brushes.Black;
+                    //L[i].VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                    //L[i].HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+                    customCanvas.Children.Add(L[i]);
+                    //L[i].X1 = customCanvas.Width / 2.0;
+                    //L[i].Y1 = customCanvas.Height / 2.0;
+                    //L[i].X2 = customCanvas.Width / 2.0;
+                    //L[i].Y2 = customCanvas.Height / 2.0;
+                    
+                    //Panel.SetZIndex(L, -1);
+                    i++;
+                }
+
+                //0th Button
+                butList[0] = new Button();
+                butList[0].Style = (Style)FindResource("NodeGreen");
+                butList[0].FontSize = 16;
+                butList[0].Height = 120;
+                butList[0].Width = 120;
+                butList[0].Content = "Start";
+
+                Canvas.SetLeft(butList[0], 10);
+                Canvas.SetTop(butList[0], 10);
+                //Canvas.SetLeft(butList[0], customCanvas.Width / 2);
+                //Canvas.SetTop(butList[0], customCanvas.Height / 2);
+                customCanvas.Children.Add(butList[0]);
+
+                //Initializes event handlers for all nodes
+                for (i = 0; i < j; i++)
+                {
+                    butList[i].Click += Node_Click;
+                }
+
+                mainWindow.Content = customCanvas;
+            }));
         }
     }
 }
