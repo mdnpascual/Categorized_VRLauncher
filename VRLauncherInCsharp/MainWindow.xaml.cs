@@ -93,7 +93,13 @@ namespace VRLauncherInCsharp
             this.Dispatcher.Invoke((Action)(() => { Progress.Value = 32; }));
 
             this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Reading Owned VR Games"; }));
-            List<List<String>> rawList = Get_Game_List(gamedb);
+            List<List<String>> filteredList = Get_Game_List(gamedb);
+
+            this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Generating Tree Structure"; }));
+            TreeNode<List<String>> treeStruct = List_to_Tree(nodeList);
+
+            this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Adding Games to Tree Structure"; }));
+            TreeNode<List<String>> filteredStruct = Add_Games_to_Tree(treeStruct, filteredList);
             
             Console.WriteLine("done");
         }
@@ -146,7 +152,6 @@ namespace VRLauncherInCsharp
                 }
                 i++;
             }
-            Console.WriteLine("done");
             return filtered;
         }
 
@@ -171,8 +176,56 @@ namespace VRLauncherInCsharp
                 }
                 i++;
             }
-
             return csv;
+        }
+
+        private TreeNode<List<String>> List_to_Tree(List<List<String>> nodeList)
+        {
+            TreeNode<List<String>> tree = new TreeNode<List<String>>(new List<String>());
+            
+            int i = 0;
+            int j = nodeList.Count;
+
+            while (i < j)
+            {
+                this.Dispatcher.Invoke((Action)(() => { Progress.Value = 50 + (i / (double)j) * 10; }));
+                List<String> node = nodeList[i];
+                if (node[1].Equals("\\N")){
+                    tree.AddChild(node);
+                }
+                else
+                {
+                    TreeNode<List<String>> found = tree.FindTreeNode(link => link.Data.Count != 0 && link.Data[0].Equals(node[1]));
+                    found.AddChild(node);
+                }
+                i++;
+            }   
+            return tree;
+        }
+
+        private TreeNode<List<String>> Add_Games_to_Tree(TreeNode<List<String>> treeStruct, List<List<String>> filteredList)
+        {
+            int i = 0;
+            int j = filteredList.Count;
+
+            while (i < j)
+            {
+                this.Dispatcher.Invoke((Action)(() => { Progress.Value = 60 + (i / (double)j) * 15; }));
+                List<String> node = filteredList[i];
+                String categories = node[3];
+                String[] category = categories.Split('|');
+                int k = 0;
+                int l = category.Length;
+
+                while (k < l)
+                {
+                    TreeNode<List<String>> found = treeStruct.FindTreeNode(link => link.Data.Count != 0 && link.Data[0].Equals(category[k]));
+                    found.AddChild(node);
+                    k++;
+                }
+                i++;
+            }
+            return treeStruct;
         }
     }
 }
