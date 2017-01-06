@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -27,6 +27,10 @@ namespace VRLauncherInCsharp
         public MainWindow()
         {
             InitializeComponent();
+
+            Thread parserWorker = new Thread(Parse_Game_List);
+            parserWorker.IsBackground = true;
+
             Console.WriteLine(path + "\\settings.txt");
             if (File.Exists(path + "\\settings.txt"))
             {
@@ -38,7 +42,8 @@ namespace VRLauncherInCsharp
 
                 first.Visibility = System.Windows.Visibility.Hidden;
                 second.Visibility = System.Windows.Visibility.Visible;
-                Parse_Game_List();
+                parserWorker.Start();
+                //Parse_Game_List();
                 //do stuff here if already setup details
             }
             else
@@ -51,6 +56,9 @@ namespace VRLauncherInCsharp
 
         private void But_Sav_Click(object sender, RoutedEventArgs e)
         {
+            Thread parserWorker = new Thread(Parse_Game_List);
+            parserWorker.IsBackground = true;
+
             ID = SteamID.Text;
             Key = API_Key.Text;
 
@@ -69,19 +77,28 @@ namespace VRLauncherInCsharp
             first.Visibility = System.Windows.Visibility.Hidden;
             this.Title = "Vr Game Launcher";
             second.Visibility = System.Windows.Visibility.Visible;
-            Parse_Game_List();
+            parserWorker.Start();
+            //Parse_Game_List();
             //Put more stuff here to change canvas
         }
 
         private void Parse_Game_List()
         {
-            String[] rawList = Get_Game_List();
+            this.Dispatcher.Invoke((Action)(() => {ParserText.Content = "Reading gamedb";}));
             List<List<String>> gamedb = CSV_Parser(path + "\\gamedb.csv");
+            this.Dispatcher.Invoke((Action)(() => { Progress.Value = 16; }));
+
+            this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Reading node structure"; }));
             List<List<String>> nodeList = CSV_Parser(path + "\\node_struct.csv");
+            this.Dispatcher.Invoke((Action)(() => { Progress.Value = 32; }));
+
+            this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Reading Owned VR Games"; }));
+            List<List<String>> rawList = Get_Game_List(gamedb);
+            
             Console.WriteLine("done");
         }
 
-        private String[] Get_Game_List()
+        private List<List<String>> Get_Game_List(List<List<String>> gamedb)
         {
             String response = "";
             WebClient client = new WebClient();
@@ -96,8 +113,41 @@ namespace VRLauncherInCsharp
             }
 
             String[] values = response.Split('\n');  //Delimiter
+            List<List<String>> filtered = new List<List<String>>();
+
+            int i = 0;
+            int j = values.Length;
+            int l = 0;
+
+            this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Filtering Only VR Games"; }));
+            
+            while (i < j)
+            {
+                this.Dispatcher.Invoke((Action)(() => { Progress.Value = 32 + (i / (double)j) * 18; }));
+                if (values[i].Contains("appid"))
+                {
+                    String[] split = values[i].Split(':');
+                    String appID = split[1].Substring(1, split[1].Length - 2);
+
+                    int k = 0;
+                    while (k < gamedb.Count){
+                        if (gamedb[k][0].Equals(appID)){
+                            filtered.Add(new List<String>());
+                            filtered[l].Add(gamedb[k][0]);  //gameID
+                            filtered[l].Add(gamedb[k][1]);  //gameName
+                            filtered[l].Add(gamedb[k][2]);  //CustomExecutable
+                            filtered[l].Add(gamedb[k][3]);  //Categories
+                            filtered[l].Add(gamedb[k][4]);  //Hidden
+                            l++;
+                            break;
+                        }
+                        k++;
+                    }
+                }
+                i++;
+            }
             Console.WriteLine("done");
-            return values;
+            return filtered;
         }
 
         private List<List<String>> CSV_Parser(String filename)

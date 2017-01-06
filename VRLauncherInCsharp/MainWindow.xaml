@@ -16,8 +16,8 @@
             <Button x:Name="But_Sav" Content="Save Information" Canvas.Left="13" Canvas.Top="82" Width="474" FontSize="16" Click="But_Sav_Click"/>
         </Canvas>
         <Canvas x:Name="second" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="497">
-            <Label Content="{DynamicResource ParseText}" FontSize="16" HorizontalContentAlignment="Center" Canvas.Left="10" Canvas.Top="44" HorizontalAlignment="Center"/>
-            <ProgressBar Height="34" Canvas.Left="10" Canvas.Top="10" Width="477"/>
+            <Label x:Name="ParserText" Content="{DynamicResource ParseText}" FontSize="16" HorizontalContentAlignment="Center" Canvas.Left="10" Canvas.Top="44" HorizontalAlignment="Center"/>
+            <ProgressBar x:Name="Progress" Height="34" Canvas.Left="10" Canvas.Top="10" Width="477"/>
         </Canvas>
     </Grid>
 </Window>
