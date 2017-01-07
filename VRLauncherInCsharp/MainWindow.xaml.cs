@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
 namespace VRLauncherInCsharp
 {
@@ -25,6 +26,9 @@ namespace VRLauncherInCsharp
         String path = Environment.CurrentDirectory;
         String ID, Key;
         TreeNode<List<String>> filteredStruct;
+        Button[] butList;
+        Line[] L;
+        Boolean Start_clicked = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -253,6 +257,11 @@ namespace VRLauncherInCsharp
             return treeStruct;
         }
 
+        private void Game_Execute(String command)
+        {
+
+        }
+
         private void Node_Click(object sender, RoutedEventArgs e)
         {
             Button node = (Button)sender;
@@ -260,11 +269,121 @@ namespace VRLauncherInCsharp
 
             if (node.Content.Equals("Start"))
             {
-                count = filteredStruct.Children.Count;
-                double degree = 360 / 14;
+                if (!Start_clicked)
+                {
+                    Start_clicked = true;
+                    count = filteredStruct.Children.Count;
+                    double degree = 360.0 / count;
+
+                    int i = 1;
+                    int j = filteredStruct.ElementsIndex.Count;
+                    int k = 0;
+                    int padding = 200;
+
+                    this.Dispatcher.Invoke((Action)(() =>
+                    {
+                        while (i < j)
+                        {
+                            if (filteredStruct.ElementAt(i).Data[1].Equals("\\N"))
+                            {
+                                if (count < 9)
+                                {
+                                    int quadrant = (int)(Math.Floor(degree / 90) + 1);
+                                    double x = 0, y = 0, distance = 0;
+                                    switch (quadrant)
+                                    {
+                                        case 1:
+                                            x = butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree) - (butList[i].Width / 2.0));
+                                            y = butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree) - (butList[i].Height / 2.0));
+                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
+                                            break;
+                                        case 2:
+                                            x = butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree) + (butList[i].Width / 2.0));
+                                            y = butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree) + (butList[i].Height / 2.0));
+                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
+                                            break;
+                                        case 3:
+                                            x = butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree) - (butList[i].Width / 2.0));
+                                            y = butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree) + (butList[i].Height / 2.0));
+                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
+                                            break;
+                                        case 4:
+                                            x = butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree) + (butList[i].Width / 2.0));
+                                            y = butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree) - (butList[i].Height / 2.0));
+                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
+                                            break;
+                                    }
+                                    //animateNode(butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree)), butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree)), butList[i]);
+                                    //animateNode(butList[i].Margin.Left + (Double)(distance * Math.Cos((Math.PI / 180) * k * degree)), butList[i].Margin.Top + (Double)(distance * Math.Sin((Math.PI / 180) * k * degree)), butList[i]);
+                                    animateNode(butList[i].Margin.Left + x, butList[i].Margin.Top + y, butList[i]);
+                                    k++;
+                                }
+                                else
+                                {
+                                    int quadrant = (int)(Math.Ceiling(k/2.0) % 4)+1;
+                                    double x = 0, y = 0, distance = 0;
+                                    switch (quadrant)
+                                    {
+                                        case 1:
+                                            x = butList[i].Margin.Left + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * k * 45) - (butList[i].Width / 2.0));
+                                            y = butList[i].Margin.Top + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * k * 45) - (butList[i].Height / 2.0));
+                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
+                                            break;
+                                        case 2:
+                                            x = butList[i].Margin.Left + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * k * 45) + (butList[i].Width / 2.0));
+                                            y = butList[i].Margin.Top + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * k * 45) - (butList[i].Height / 2.0));
+                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
+                                            break;
+                                        case 3:
+                                            x = butList[i].Margin.Left + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * k * 45) - (butList[i].Width / 2.0));
+                                            y = butList[i].Margin.Top + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * k * 45) + (butList[i].Height / 2.0));
+                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
+                                            break;
+                                        case 4:
+                                            x = butList[i].Margin.Left + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * k * 45) + (butList[i].Width / 2.0));
+                                            y = butList[i].Margin.Top + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * k * 45) + (butList[i].Height / 2.0));
+                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
+                                            break;
+                                    }
+                                    //animateNode(butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree)), butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree)), butList[i]);
+                                    //animateNode(butList[i].Margin.Left + (Double)(distance * Math.Cos((Math.PI / 180) * k * degree)), butList[i].Margin.Top + (Double)(distance * Math.Sin((Math.PI / 180) * k * degree)), butList[i]);
+                                    animateNode(butList[i].Margin.Left + x, butList[i].Margin.Top + y, butList[i]);
+                                    k++;
+                                }
+                            }
+                            i++;
+                        }
+                    }));
+                }
+                else
+                {
+                    Start_clicked = false;
+                    int i = 1;
+                    int j = filteredStruct.ElementsIndex.Count;
+
+                    this.Dispatcher.Invoke((Action)(() =>
+                    {
+                        while (i < j)
+                        {
+                            animateNode(0, 0, butList[i]);
+                            i++;
+                        }
+                    }));
+                }
+                //butList[0].Visibility = System.Windows.Visibility.Hidden;
             }
             
             Console.WriteLine(node.Content);
+        }
+
+        private void animateNode(double newX, double newY, Button toAnimate)
+        {
+            ThicknessAnimation slide = new ThicknessAnimation();
+            slide.From = toAnimate.Margin;                                 // get current grid location
+            slide.To = new Thickness(newX, newY, 0, 0);                    // set new grid location
+
+            slide.Duration = new Duration(TimeSpan.FromSeconds(0.5));     // set translation time
+            toAnimate.BeginAnimation(Button.MarginProperty, slide);          // animate movement
         }
 
         private void Graphics_main(TreeNode<List<String>> filteredStruct)
@@ -288,8 +407,8 @@ namespace VRLauncherInCsharp
                 int i = 1;
                 int j = filteredStruct.ElementsIndex.Count;
 
-                Button[] butList = new Button[j];
-                Line[] L = new Line[j];
+                butList = new Button[j];
+                L = new Line[j];
 
                 while (i < j)
                 {
@@ -302,8 +421,7 @@ namespace VRLauncherInCsharp
                         butList[i].Height = 100;
                         butList[i].Width = 100;
                         butList[i].Content = filteredStruct.ElementAt(i).Data[2];
-                        Canvas.SetLeft(butList[i], 200);
-                        Canvas.SetTop(butList[i], 200);
+                        butList[i].ToolTip = butList[i].Content;
                     }
                     else
                     {
@@ -312,12 +430,11 @@ namespace VRLauncherInCsharp
                         butList[i].Height = 80;
                         butList[i].Width = 80;
                         butList[i].Content = filteredStruct.ElementAt(i).Data[1];
-                        Canvas.SetLeft(butList[i], 500);
-                        Canvas.SetTop(butList[i], 500);
+                        butList[i].ToolTip = butList[i].Content;
                     }
 
-                    //Canvas.SetLeft(butList[i], customCanvas.Width / 2);
-                    //Canvas.SetTop(butList[i], customCanvas.Height / 2);
+                    Canvas.SetLeft(butList[i], (customCanvas.Width / 2) - butList[i].Width / 2);
+                    Canvas.SetTop(butList[i], (customCanvas.Height / 2) - butList[i].Height / 2);
                     customCanvas.Children.Add(butList[i]);
 
                     L[i] = new Line();
@@ -342,11 +459,10 @@ namespace VRLauncherInCsharp
                 butList[0].Height = 120;
                 butList[0].Width = 120;
                 butList[0].Content = "Start";
+                butList[0].ToolTip = butList[0].Content;
 
-                Canvas.SetLeft(butList[0], 10);
-                Canvas.SetTop(butList[0], 10);
-                //Canvas.SetLeft(butList[0], customCanvas.Width / 2);
-                //Canvas.SetTop(butList[0], customCanvas.Height / 2);
+                Canvas.SetLeft(butList[0], (customCanvas.Width / 2) - butList[0].Width / 2);
+                Canvas.SetTop(butList[0], (customCanvas.Height / 2) - butList[0].Height / 2);
                 customCanvas.Children.Add(butList[0]);
 
                 //Initializes event handlers for all nodes
