@@ -274,6 +274,7 @@ namespace VRLauncherInCsharp
                     Start_clicked = true;
                     count = filteredStruct.Children.Count;
                     double degree = 360.0 / count;
+                    double x = 0, y = 0;
 
                     int i = 1;
                     int j = filteredStruct.ElementsIndex.Count;
@@ -286,70 +287,43 @@ namespace VRLauncherInCsharp
                         {
                             if (filteredStruct.ElementAt(i).Data[1].Equals("\\N"))
                             {
-                                if (count < 9)
+                                switch (k % 8)
                                 {
-                                    int quadrant = (int)(Math.Floor(degree / 90) + 1);
-                                    double x = 0, y = 0, distance = 0;
-                                    switch (quadrant)
-                                    {
-                                        case 1:
-                                            x = butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree) - (butList[i].Width / 2.0));
-                                            y = butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree) - (butList[i].Height / 2.0));
-                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
-                                            break;
-                                        case 2:
-                                            x = butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree) + (butList[i].Width / 2.0));
-                                            y = butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree) + (butList[i].Height / 2.0));
-                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
-                                            break;
-                                        case 3:
-                                            x = butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree) - (butList[i].Width / 2.0));
-                                            y = butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree) + (butList[i].Height / 2.0));
-                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
-                                            break;
-                                        case 4:
-                                            x = butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree) + (butList[i].Width / 2.0));
-                                            y = butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree) - (butList[i].Height / 2.0));
-                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
-                                            break;
-                                    }
-                                    //animateNode(butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree)), butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree)), butList[i]);
-                                    //animateNode(butList[i].Margin.Left + (Double)(distance * Math.Cos((Math.PI / 180) * k * degree)), butList[i].Margin.Top + (Double)(distance * Math.Sin((Math.PI / 180) * k * degree)), butList[i]);
-                                    animateNode(butList[i].Margin.Left + x, butList[i].Margin.Top + y, butList[i]);
-                                    k++;
+                                    case 0:
+                                        x = butList[i].Margin.Left + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))));
+                                        y = 0;
+                                        break;
+                                    case 1:
+                                        x = butList[i].Margin.Left + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                        y = butList[i].Margin.Top + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                        break;
+                                    case 2:
+                                        x = 0;
+                                        y = butList[i].Margin.Top + (Double)((150 + ((padding - 100) * Math.Floor(k / 8.0))));
+                                        break;
+                                    case 3:
+                                        x = butList[i].Margin.Left - (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                        y = butList[i].Margin.Top + (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                        break;
+                                    case 4:
+                                        x = butList[i].Margin.Left - (Double)((200 + (padding * Math.Floor(k / 8.0))));
+                                        y = 0;
+                                        break;
+                                    case 5:
+                                        x = butList[i].Margin.Left - (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                        y = butList[i].Margin.Top - (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                        break;
+                                    case 6:
+                                        x = 0;
+                                        y = butList[i].Margin.Top - (Double)((200 + (padding * Math.Floor(k / 8.0))));
+                                        break;
+                                    case 7:
+                                        x = butList[i].Margin.Left + (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                        y = butList[i].Margin.Top - (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                        break;
                                 }
-                                else
-                                {
-                                    int quadrant = (int)(Math.Ceiling(k/2.0) % 4)+1;
-                                    double x = 0, y = 0, distance = 0;
-                                    switch (quadrant)
-                                    {
-                                        case 1:
-                                            x = butList[i].Margin.Left + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * k * 45) - (butList[i].Width / 2.0));
-                                            y = butList[i].Margin.Top + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * k * 45) - (butList[i].Height / 2.0));
-                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
-                                            break;
-                                        case 2:
-                                            x = butList[i].Margin.Left + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * k * 45) + (butList[i].Width / 2.0));
-                                            y = butList[i].Margin.Top + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * k * 45) - (butList[i].Height / 2.0));
-                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
-                                            break;
-                                        case 3:
-                                            x = butList[i].Margin.Left + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * k * 45) - (butList[i].Width / 2.0));
-                                            y = butList[i].Margin.Top + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * k * 45) + (butList[i].Height / 2.0));
-                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
-                                            break;
-                                        case 4:
-                                            x = butList[i].Margin.Left + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * k * 45) + (butList[i].Width / 2.0));
-                                            y = butList[i].Margin.Top + (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * k * 45) + (butList[i].Height / 2.0));
-                                            distance = Math.Sqrt(Math.Pow((butList[i].Margin.Left - x), 2.0) + Math.Pow((butList[i].Margin.Top - y), 2.0));
-                                            break;
-                                    }
-                                    //animateNode(butList[i].Margin.Left + (Double)(350 * Math.Cos((Math.PI / 180) * k * degree)), butList[i].Margin.Top + (Double)(350 * Math.Sin((Math.PI / 180) * k * degree)), butList[i]);
-                                    //animateNode(butList[i].Margin.Left + (Double)(distance * Math.Cos((Math.PI / 180) * k * degree)), butList[i].Margin.Top + (Double)(distance * Math.Sin((Math.PI / 180) * k * degree)), butList[i]);
-                                    animateNode(butList[i].Margin.Left + x, butList[i].Margin.Top + y, butList[i]);
-                                    k++;
-                                }
+                                k++;
+                                animateNode(butList[i].Margin.Left + x, butList[i].Margin.Top + y, butList[i]);
                             }
                             i++;
                         }
