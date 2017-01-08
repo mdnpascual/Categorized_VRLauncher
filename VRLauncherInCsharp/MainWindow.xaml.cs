@@ -308,27 +308,27 @@ namespace VRLauncherInCsharp
                                     case 3:
                                         x = butList[i].Margin.Left - (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
                                         y = butList[i].Margin.Top + (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
-                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + (25 * Math.Ceiling(k / 8.0)), (customCanvas.Height / 2) + y);
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + 20 + 45 * Math.Floor(k / 8.0), (customCanvas.Height / 2) + y);
                                         break;
                                     case 4:
                                         x = butList[i].Margin.Left - (Double)((200 + (padding * Math.Floor(k / 8.0))));
                                         y = 0;
-                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + (150 * Math.Ceiling(k/8.0)), (customCanvas.Height / 2) + y);
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + (butList[i].Width / 2.0) + 100 * Math.Floor(k / 8.0), (customCanvas.Height / 2) + y);
                                         break;
                                     case 5:
                                         x = butList[i].Margin.Left - (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
                                         y = butList[i].Margin.Top - (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
-                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + 100, (customCanvas.Height / 2) + y + 100);
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + (butList[i].Width / 2.0) + 50 * Math.Floor(k / 8.0), (customCanvas.Height / 2) + y + +(butList[i].Height / 2.0) + 50 * Math.Floor(k / 8.0));
                                         break;
                                     case 6:
                                         x = 0;
                                         y = butList[i].Margin.Top - (Double)((200 + (padding * Math.Floor(k / 8.0))));
-                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + 50);
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + (butList[i].Height / 2.0) + 100 * Math.Floor(k / 8.0));
                                         break;
                                     case 7:
                                         x = butList[i].Margin.Left + (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
                                         y = butList[i].Margin.Top - (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
-                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y+25);
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + 20 + 45 * Math.Floor(k / 8.0));
                                         break;
                                 }
                                 k++;
@@ -459,7 +459,7 @@ namespace VRLauncherInCsharp
                     //L[i].Stroke = Brushes.Black;
                     //L[i].VerticalAlignment = System.Windows.VerticalAlignment.Top;
                     //L[i].HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-                    //Canvas.SetZIndex(L[i], -1);
+                    Canvas.SetZIndex(L[i], -1);
                     customCanvas.Children.Add(L[i]);
                     //L[i].X1 = customCanvas.Width / 2.0;
                     //L[i].Y1 = customCanvas.Height / 2.0;
