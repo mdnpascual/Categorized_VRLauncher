@@ -28,6 +28,7 @@ namespace VRLauncherInCsharp
         TreeNode<List<String>> filteredStruct;
         Button[] butList;
         Line[] L;
+        Canvas customCanvas = new Canvas();
         Boolean Start_clicked = false;
         public MainWindow()
         {
@@ -292,38 +293,49 @@ namespace VRLauncherInCsharp
                                     case 0:
                                         x = butList[i].Margin.Left + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))));
                                         y = 0;
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y);
                                         break;
                                     case 1:
                                         x = butList[i].Margin.Left + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
                                         y = butList[i].Margin.Top + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y);
                                         break;
                                     case 2:
                                         x = 0;
                                         y = butList[i].Margin.Top + (Double)((150 + ((padding - 100) * Math.Floor(k / 8.0))));
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y);
                                         break;
                                     case 3:
                                         x = butList[i].Margin.Left - (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
                                         y = butList[i].Margin.Top + (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + (25 * Math.Ceiling(k / 8.0)), (customCanvas.Height / 2) + y);
                                         break;
                                     case 4:
                                         x = butList[i].Margin.Left - (Double)((200 + (padding * Math.Floor(k / 8.0))));
                                         y = 0;
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + (150 * Math.Ceiling(k/8.0)), (customCanvas.Height / 2) + y);
                                         break;
                                     case 5:
                                         x = butList[i].Margin.Left - (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
                                         y = butList[i].Margin.Top - (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + 100, (customCanvas.Height / 2) + y + 100);
                                         break;
                                     case 6:
                                         x = 0;
                                         y = butList[i].Margin.Top - (Double)((200 + (padding * Math.Floor(k / 8.0))));
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + 50);
                                         break;
                                     case 7:
                                         x = butList[i].Margin.Left + (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
                                         y = butList[i].Margin.Top - (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                        animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y+25);
                                         break;
                                 }
                                 k++;
                                 animateNode(butList[i].Margin.Left + x, butList[i].Margin.Top + y, butList[i]);
+                                
+                                
+                                Console.WriteLine(node.Content);
                             }
                             i++;
                         }
@@ -339,12 +351,17 @@ namespace VRLauncherInCsharp
                     {
                         while (i < j)
                         {
+                            animateLine(L[i], L[i].X1, L[i].Y1, customCanvas.Width / 2, customCanvas.Height / 2);
                             animateNode(0, 0, butList[i]);
                             i++;
                         }
                     }));
                 }
                 //butList[0].Visibility = System.Windows.Visibility.Hidden;
+            }
+            else
+            {
+                String butName = node.Content.ToString();
             }
             
             Console.WriteLine(node.Content);
@@ -360,6 +377,32 @@ namespace VRLauncherInCsharp
             toAnimate.BeginAnimation(Button.MarginProperty, slide);          // animate movement
         }
 
+        private void animateLine(Line toAnimate, Double origX, Double origY, Double destX, Double destY)
+        {
+            /*
+            DoubleAnimation opacityAnimation = new DoubleAnimation();
+            opacityAnimation.From = toAnimate.Opacity;                                 // get current grid location
+            opacityAnimation.To = 1;                    // set new grid location
+            opacityAnimation.Duration = new Duration(TimeSpan.FromSeconds(.5));     // set translation time
+            toAnimate.BeginAnimation(Line.OpacityProperty, opacityAnimation);          // animate movement
+            */
+            toAnimate.X1 = origX;
+            toAnimate.Y1 = origY;
+
+            Storyboard sb = new Storyboard();
+            DoubleAnimation da1 = new DoubleAnimation(toAnimate.X2, destX, new Duration(TimeSpan.FromSeconds(.5)));
+            DoubleAnimation da = new DoubleAnimation(toAnimate.Y2, destY, new Duration(TimeSpan.FromSeconds(.5)));
+            Storyboard.SetTargetProperty(da, new PropertyPath("(Line.Y2)"));
+            Storyboard.SetTargetProperty(da1, new PropertyPath("(Line.X2)"));
+            sb.Children.Add(da);
+            sb.Children.Add(da1);
+
+            //MessageBox.Show("HOY");
+            toAnimate.BeginStoryboard(sb);
+
+
+        }
+
         private void Graphics_main(TreeNode<List<String>> filteredStruct)
         {
             this.Dispatcher.Invoke((Action)(() =>
@@ -373,7 +416,7 @@ namespace VRLauncherInCsharp
                 style2.Setters.Add(new Setter(Line.HorizontalAlignmentProperty, System.Windows.HorizontalAlignment.Left));
                 Resources.Add(typeof(Line), style2);
 
-                Canvas customCanvas = new Canvas();
+                customCanvas = new Canvas();
                 customCanvas.Width = 1900;
                 customCanvas.Height = 1000;
                 customCanvas.Background = Brushes.LightSteelBlue;
@@ -416,6 +459,7 @@ namespace VRLauncherInCsharp
                     //L[i].Stroke = Brushes.Black;
                     //L[i].VerticalAlignment = System.Windows.VerticalAlignment.Top;
                     //L[i].HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+                    //Canvas.SetZIndex(L[i], -1);
                     customCanvas.Children.Add(L[i]);
                     //L[i].X1 = customCanvas.Width / 2.0;
                     //L[i].Y1 = customCanvas.Height / 2.0;
