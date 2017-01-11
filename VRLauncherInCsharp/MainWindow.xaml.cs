@@ -30,6 +30,7 @@ namespace VRLauncherInCsharp
         Line[] L;
         Canvas customCanvas = new Canvas();
         Boolean Start_clicked = false;
+        Boolean[] but_Clicked;
         public MainWindow()
         {
             InitializeComponent();
@@ -351,8 +352,11 @@ namespace VRLauncherInCsharp
                     {
                         while (i < j)
                         {
-                            animateLine(L[i], L[i].X1, L[i].Y1, customCanvas.Width / 2, customCanvas.Height / 2);
-                            animateNode(0, 0, butList[i]);
+                            if (butList[i].Margin.Left != 0 || butList[i].Margin.Top != 0)
+                            {
+                                animateLine(L[i], L[i].X1, L[i].Y1, customCanvas.Width / 2, customCanvas.Height / 2);
+                                animateNode(0, 0, butList[i]);
+                            }
                             i++;
                         }
                     }));
@@ -361,7 +365,50 @@ namespace VRLauncherInCsharp
             }
             else
             {
+                int i = 1;
+                int j = filteredStruct.ElementsIndex.Count;
                 String butName = node.Content.ToString();
+
+                double x = 0, y = 0;
+
+                this.Dispatcher.Invoke((Action)(() =>
+                    {
+
+                        while (i < j)
+                        {
+                            if (filteredStruct.ElementAt(i).Data[2].Equals(butName))
+                            {
+                                x = 0 - butList[i].Margin.Left;
+                                y = 0 - butList[i].Margin.Top;
+                                animateLine(L[i], L[i].X1, L[i].Y1, customCanvas.Width / 2, customCanvas.Height / 2);
+                                animateNode(0, 0, butList[i]);
+                                break;
+                            }
+                            i++;
+                        }
+                        i = 1;
+                        while (i < j)
+                        {
+                            if (filteredStruct.ElementAt(i).Data[2].Equals(butName))
+                            {
+                                i++;
+                                continue;
+                            }
+                            else if (butList[i].Margin.Left != 0 || butList[i].Margin.Top != 0)
+                            {
+                                animateLine(L[i], L[i].X1, L[i].Y1, L[i].X1 + x, L[i].Y1 + y);
+                                animateNode(x, y, butList[i]);
+                            }
+                            else
+                            {
+                                animateLine(L[i], L[i].X1, L[i].Y1, L[i].X1 + x, L[i].Y1 + y);
+                                animateNode(x, y, butList[i]);
+                            }
+                            i++;
+                        }
+                        animateLine(L[0], L[0].X1, L[0].Y1, L[0].X1 + x, L[0].Y1 + y);
+                        animateNode(x, y, butList[0]);
+                    }));
             }
             
             Console.WriteLine(node.Content);
@@ -418,11 +465,12 @@ namespace VRLauncherInCsharp
 
                 customCanvas = new Canvas();
                 customCanvas.Width = 1900;
-                customCanvas.Height = 1000;
+                customCanvas.Height = 1050;
                 customCanvas.Background = Brushes.LightSteelBlue;
 
                 int i = 1;
                 int j = filteredStruct.ElementsIndex.Count;
+                but_Clicked = new Boolean[j];
 
                 butList = new Button[j];
                 L = new Line[j];
@@ -450,6 +498,7 @@ namespace VRLauncherInCsharp
                         butList[i].ToolTip = butList[i].Content;
                     }
 
+                    but_Clicked[i] = false;
                     Canvas.SetLeft(butList[i], (customCanvas.Width / 2) - butList[i].Width / 2);
                     Canvas.SetTop(butList[i], (customCanvas.Height / 2) - butList[i].Height / 2);
                     customCanvas.Children.Add(butList[i]);
@@ -471,6 +520,7 @@ namespace VRLauncherInCsharp
                 }
 
                 //0th Button
+                L[0] = new Line();
                 butList[0] = new Button();
                 butList[0].Style = (Style)FindResource("NodeGreen");
                 butList[0].FontSize = 16;
@@ -482,6 +532,8 @@ namespace VRLauncherInCsharp
                 Canvas.SetLeft(butList[0], (customCanvas.Width / 2) - butList[0].Width / 2);
                 Canvas.SetTop(butList[0], (customCanvas.Height / 2) - butList[0].Height / 2);
                 customCanvas.Children.Add(butList[0]);
+                Canvas.SetZIndex(L[0], -1);
+                customCanvas.Children.Add(L[0]);
 
                 //Initializes event handlers for all nodes
                 for (i = 0; i < j; i++)
