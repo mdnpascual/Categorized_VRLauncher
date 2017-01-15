@@ -31,6 +31,9 @@ namespace VRLauncherInCsharp
         Canvas customCanvas = new Canvas();
         Boolean Start_clicked = false;
         Boolean[] but_Clicked;
+        String gbutName;
+        String gbutID;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -107,6 +110,7 @@ namespace VRLauncherInCsharp
 
             this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Adding Games to Tree Structure"; }));
             filteredStruct = Add_Games_to_Tree(treeStruct, filteredList);
+            //filteredStruct = Add_Games_to_Tree(treeStruct, gamedb);
 
             ///////////MOVE THIS CODE BLOCK///////////
             int i = 1;
@@ -129,7 +133,10 @@ namespace VRLauncherInCsharp
             Graphics_main(filteredStruct);
 
             this.Dispatcher.Invoke((Action)(() => { mainWindow.Width = 1920; }));
-            this.Dispatcher.Invoke((Action)(() => { mainWindow.Height = 1020; }));
+            this.Dispatcher.Invoke((Action)(() => { mainWindow.Height = 1040; }));
+
+            //this.Dispatcher.Invoke((Action)(() => { mainWindow.Width = 1280; }));
+            //this.Dispatcher.Invoke((Action)(() => { mainWindow.Height = 800; }));
             this.Dispatcher.Invoke((Action)(() => { mainWindow.Top = 0; }));
             this.Dispatcher.Invoke((Action)(() => { mainWindow.Left = 0; }));             
             Console.WriteLine("done");
@@ -249,7 +256,7 @@ namespace VRLauncherInCsharp
                 int l = category.Length;
 
                 while (k < l)
-                {
+                {                 
                     TreeNode<List<String>> found = treeStruct.FindTreeNode(link => link.Data.Count != 0 && link.Data[0].Equals(category[k]));
                     found.AddChild(node);
                     k++;
@@ -289,6 +296,9 @@ namespace VRLauncherInCsharp
                         {
                             if (filteredStruct.ElementAt(i).Data[1].Equals("\\N"))
                             {
+                                L[i].Visibility = System.Windows.Visibility.Visible;
+                                butList[i].Visibility = System.Windows.Visibility.Visible;
+
                                 switch (k % 8)
                                 {
                                     case 0:
@@ -333,9 +343,7 @@ namespace VRLauncherInCsharp
                                         break;
                                 }
                                 k++;
-                                animateNode(butList[i].Margin.Left + x, butList[i].Margin.Top + y, butList[i]);
-                                
-                                
+                                animateNode(butList[i].Margin.Left + x, butList[i].Margin.Top + y, butList[i]);                             
                                 Console.WriteLine(node.Content);
                             }
                             i++;
@@ -345,7 +353,7 @@ namespace VRLauncherInCsharp
                 else
                 {
                     Start_clicked = false;
-                    int i = 1;
+                    int i = 0;
                     int j = filteredStruct.ElementsIndex.Count;
 
                     this.Dispatcher.Invoke((Action)(() =>
@@ -354,7 +362,10 @@ namespace VRLauncherInCsharp
                         {
                             if (butList[i].Margin.Left != 0 || butList[i].Margin.Top != 0)
                             {
-                                animateLine(L[i], L[i].X1, L[i].Y1, customCanvas.Width / 2, customCanvas.Height / 2);
+                                //if (i>0)
+                                //{
+                                    animateLine(L[i], L[i].X1, L[i].Y1, customCanvas.Width / 2, customCanvas.Height / 2);
+                                //}                                
                                 animateNode(0, 0, butList[i]);
                             }
                             i++;
@@ -365,27 +376,75 @@ namespace VRLauncherInCsharp
             }
             else
             {
-                int i = 1;
-                int j = filteredStruct.ElementsIndex.Count;
-                String butName = node.Content.ToString();
+                if (!(node.Margin.Left == 0 && node.Margin.Top == 0))
+                {
+                    int i = 1;
+                    int j = filteredStruct.ElementsIndex.Count;
+                    String butName = node.Content.ToString();
+                    gbutID = node.Uid;
+                   
+                    int currentpos = 0;
+                    string parent = "";
+                    double cposx = 0;
+                    double cposy = 0;
+                    double x = 0, y = 0;
+                    double lx = 0, ly = 0;
+                    int a = 0;
 
-                double x = 0, y = 0;
-
-                this.Dispatcher.Invoke((Action)(() =>
+                    this.Dispatcher.Invoke((Action)(() =>
                     {
-
                         while (i < j)
                         {
+                            Console.WriteLine(filteredStruct.ElementAt(i).Data[2]+":"+ butList[i].Uid);
+
                             if (filteredStruct.ElementAt(i).Data[2].Equals(butName))
                             {
-                                x = 0 - butList[i].Margin.Left;
-                                y = 0 - butList[i].Margin.Top;
-                                animateLine(L[i], L[i].X1, L[i].Y1, customCanvas.Width / 2, customCanvas.Height / 2);
-                                animateNode(0, 0, butList[i]);
+                                a = 0;                 
+                                while (a < j)
+                                {
+                                    if (gbutID == butList[a].Uid)
+                                    {
+                                        break;
+                                    }
+                                    a++;
+                                }
+
+                                Console.WriteLine(i+":"+a+":"+gbutID+":"+butList[a].Uid);
+                                Console.WriteLine(filteredStruct.ElementAt(i).Data[2]);
+                                Console.WriteLine(butList[a].Margin.Left);
+                                Console.WriteLine(butList[a].Margin.Top);
+
+                                //cposx = butList[i].Margin.Left;
+                                //cposy = butList[i].Margin.Top;
+
+                                lx = cposx = x = 0 - butList[a].Margin.Left;
+                                ly = cposy = y = 0 - butList[a].Margin.Top;
+
+                                L[a].Visibility = System.Windows.Visibility.Visible;
+                                butList[a].Visibility = System.Windows.Visibility.Visible;
+
+                                if (x==0 && y==0)
+                                {
+                                    cposx = x = 0 - customCanvas.Width / 2;
+                                    cposy = y = 0 - customCanvas.Width / 2;
+
+                                    animateLine(L[a], L[a].X1, L[a].Y1, customCanvas.Width / 2, customCanvas.Height / 2);
+                                    animateNode(x, y, butList[a]);
+
+                                } else
+                                {
+                                    animateLine(L[a], L[a].X1, L[a].Y1, customCanvas.Width / 2, customCanvas.Height / 2);
+                                    animateNode(0, 0, butList[a]);
+                                }
+
+                                currentpos = i;
+                                parent = butList[a].Uid;
+                                gbutID = butList[a].Uid;
                                 break;
                             }
                             i++;
                         }
+                      
                         i = 1;
                         while (i < j)
                         {
@@ -394,23 +453,253 @@ namespace VRLauncherInCsharp
                                 i++;
                                 continue;
                             }
-                            else if (butList[i].Margin.Left != 0 || butList[i].Margin.Top != 0)
-                            {
-                                animateLine(L[i], L[i].X1, L[i].Y1, L[i].X1 + x, L[i].Y1 + y);
-                                animateNode(x, y, butList[i]);
-                            }
                             else
                             {
-                                animateLine(L[i], L[i].X1, L[i].Y1, L[i].X1 + x, L[i].Y1 + y);
-                                animateNode(x, y, butList[i]);
+                                //animateLine(L[i], L[i].X1, L[i].Y1, L[i].X1 + lx , L[i].Y1 + ly );
+                                animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, customCanvas.Width / 2, customCanvas.Height / 2 );
+                                //animateLine(L[i], 0, 0, 0, 0);
+                                L[i].Visibility = System.Windows.Visibility.Hidden;
+                                butList[i].Visibility = System.Windows.Visibility.Hidden;
+                                //animateNode(x, y, butList[i]);
+                                //animateLine(L[i], L[i].X1, L[i].Y1, L[i].X1 + x, L[i].Y1 + y);
                             }
                             i++;
                         }
-                        animateLine(L[0], L[0].X1, L[0].Y1, L[0].X1 + x, L[0].Y1 + y);
+                         
+
+                        i = currentpos;
+                        int children = 0;
+                        int range = 0;
+
+                        while (i < j)
+                        {
+                            //if (filteredStruct.ElementAt(i).Data[1].Equals(parent))
+                            //{
+                            if ((filteredStruct.ElementAt(i).Data.Count == 4 && filteredStruct.ElementAt(i).Data[1].Equals(parent))
+                                || (filteredStruct.ElementAt(i).Data.Count == 5 && filteredStruct.ElementAt(i).Data[3].Equals(parent))
+                                )
+                            {
+                                children++;
+                            }
+                            i++;
+                        }
+                        range = j;
+                        
+                        double degree = 360.0 / children;
+                        
+                        if (x < 0 && y == 0)
+                        {
+                            lx += 40;
+                        }
+
+                        lx = ly = 0;
+                        if (children>=7)
+                        {
+                            if (x > 0 && y > 0)
+                            {
+                                x += 200;
+                                y += 200;
+                            }
+                            else if (x < 0 && y > 0)
+                            {
+                                x -= 200;
+                                y += 200;
+                            }
+                            else if (x < 0 && y < 0)
+                            {
+                                x -= 200;
+                                y -= 200;
+                            }
+                            else if (x > 0 && y < 0)
+                            {
+                                x += 200;
+                                y -= 200;
+                            }
+                            else if (x == 0 && y < 0)
+                            {
+                                ly = 100;
+                                y -= 250;
+                            }
+                            else if (x > 0 && y == 0)
+                            {
+                                //ly = 100;
+                                x += 250;
+                            }
+                        }
+
+                        L[0].Visibility = System.Windows.Visibility.Visible;
+                        animateLine(L[0], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + ly);
                         animateNode(x, y, butList[0]);
+                        
+                        i = currentpos;
+                        j = range;
+                        int k = 0;
+
+                        if (k == 0 && cposx == 0 && cposy > 0)
+                        {
+                            k = 3;
+                        }
+
+                        if (k == 0 && cposx > 0 && cposy < 0)
+                        {
+                            //k = 4;
+                            k = 0;
+                        }
+
+                        if (k == 0 && cposx > 0 && cposy == 0)
+                        {
+                            k = 5;
+                        }
+
+                        if (k == 0 && cposx > 0 && cposy > 0)
+                        {
+                            k = 2;
+                        }
+
+                        if (k == 0 && cposx == 0 && cposy < 0)
+                        {
+                            k = 3;
+                        }
+
+                        if (k == 0 && cposx < 0 && cposy < 0)
+                        {
+                            k = 6;
+                        }
+
+                        if (k == 0 && cposx < 0 && cposy == 0)
+                        {
+                            k = 6;
+                        }
+
+                        if (k == 0 && cposx < 0 && cposy > 0)
+                        {
+                            //3
+                            k = 4;
+                        }
+
+                        int padding = 200;
+                        while (i < j)
+                        {
+                            if ((filteredStruct.ElementAt(i).Data.Count == 4 && filteredStruct.ElementAt(i).Data[1].Equals(parent))
+                                || (filteredStruct.ElementAt(i).Data.Count == 5 && filteredStruct.ElementAt(i).Data[3].Equals(parent))
+                                )
+                            {
+                                L[i].Visibility = System.Windows.Visibility.Visible;
+                                butList[i].Visibility = System.Windows.Visibility.Visible;
+
+                                Console.WriteLine(butList[i].Margin.Left);
+                                Console.WriteLine(butList[i].Margin.Top);
+                                Console.WriteLine(butList[i].Content);
+                                Console.WriteLine(filteredStruct.ElementAt(i).Children.Count);
+
+                                if (filteredStruct.ElementAt(i).Data.Count == 4)
+                                {
+                                    switch (k % 8)
+                                    {
+                                        case 0:
+                                            x = Math.Abs(butList[i].Margin.Left) + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))));
+                                            y = 0;
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + butList[i].Margin.Left, (customCanvas.Height / 2) + y);
+                                            break;
+                                        case 1:
+                                            x = Math.Abs(butList[i].Margin.Left) + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                            y = butList[i].Margin.Top + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + butList[i].Margin.Left, (customCanvas.Height / 2) + y);
+                                            break;
+                                        case 2:
+                                            x = 0;
+                                            y = butList[i].Margin.Top + (Double)((150 + ((padding - 100) * Math.Floor(k / 8.0))));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y);
+                                            break;
+                                        case 3:
+                                            x = butList[i].Margin.Left - (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                            y = butList[i].Margin.Top + (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + 20 + 45 * Math.Floor(k / 8.0), (customCanvas.Height / 2) + y);
+                                            break;
+                                        case 4:
+                                            x = butList[i].Margin.Left - (Double)((200 + (padding * Math.Floor(k / 8.0))));
+                                            y = 0;
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + (butList[i].Width / 2.0) + 100 * Math.Floor(k / 8.0), (customCanvas.Height / 2) + y);
+                                            break;
+                                        case 5:
+                                            x = butList[i].Margin.Left - (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                            y = butList[i].Margin.Top - (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + (butList[i].Width / 2.0) + 50 * Math.Floor(k / 8.0), (customCanvas.Height / 2) + y + +(butList[i].Height / 2.0) + 50 * Math.Floor(k / 8.0));
+                                            break;
+                                        case 6:
+                                            x = 0;
+                                            y = butList[i].Margin.Top - (Double)((200 + (padding * Math.Floor(k / 8.0))));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + (butList[i].Height / 2.0) + 100 * Math.Floor(k / 8.0));
+                                            break;
+                                        case 7:
+                                            x = butList[i].Margin.Left + (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                            y = butList[i].Margin.Top - (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + 20 + 45 * Math.Floor(k / 8.0));
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    switch (k % 8)
+                                    {
+                                        case 0:
+                                            x = Math.Abs(butList[i].Margin.Left) + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))));
+                                            y = 0;
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + butList[i].Margin.Left, (customCanvas.Height / 2) + y);
+                                            break;
+                                        case 1:
+                                            x = Math.Abs(butList[i].Margin.Left) + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                            y = butList[i].Margin.Top + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + butList[i].Margin.Left, (customCanvas.Height / 2) + y);
+                                            break;
+                                        case 2:
+                                            x = 0;
+                                            y = butList[i].Margin.Top + (Double)((150 + ((padding - 100) * Math.Floor(k / 8.0))));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y);
+                                            break;
+                                        case 3:
+                                            x = butList[i].Margin.Left - (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                            y = butList[i].Margin.Top + (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + 20 + 45 * Math.Floor(k / 8.0), (customCanvas.Height / 2) + y);
+                                            break;
+                                        case 4:
+                                            x = butList[i].Margin.Left - (Double)((200 + (padding * Math.Floor(k / 8.0))));
+                                            y = 0;
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + (butList[i].Width / 2.0) + 100 * Math.Floor(k / 8.0), (customCanvas.Height / 2) + y);
+                                            break;
+                                        case 5:
+                                            x = butList[i].Margin.Left - (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                            y = butList[i].Margin.Top - (Double)((200 + (padding * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + (butList[i].Width / 2.0) + 50 * Math.Floor(k / 8.0), (customCanvas.Height / 2) + y + +(butList[i].Height / 2.0) + 50 * Math.Floor(k / 8.0));
+                                            break;
+                                        case 6:
+                                            x = 0;
+                                            y = butList[i].Margin.Top - (Double)((200 + (padding * Math.Floor(k / 8.0))));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + (butList[i].Height / 2.0) + 100 * Math.Floor(k / 8.0));
+                                            break;
+                                        case 7:
+                                            x = butList[i].Margin.Left + (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                            y = butList[i].Margin.Top - (Double)((200 + ((padding - 75) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + 20 + 45 * Math.Floor(k / 8.0));
+                                            break;
+                                    }
+
+                                }
+
+                                k++;
+                                animateNode(butList[i].Margin.Left + x, butList[i].Margin.Top + y, butList[i]);
+                            }
+                            i++;
+                        }
+                                                
                     }));
+
+                    gbutName = butName;
+                    
+                }
             }
             
+
             Console.WriteLine(node.Content);
         }
 
@@ -426,28 +715,33 @@ namespace VRLauncherInCsharp
 
         private void animateLine(Line toAnimate, Double origX, Double origY, Double destX, Double destY)
         {
-            /*
-            DoubleAnimation opacityAnimation = new DoubleAnimation();
-            opacityAnimation.From = toAnimate.Opacity;                                 // get current grid location
-            opacityAnimation.To = 1;                    // set new grid location
-            opacityAnimation.Duration = new Duration(TimeSpan.FromSeconds(.5));     // set translation time
-            toAnimate.BeginAnimation(Line.OpacityProperty, opacityAnimation);          // animate movement
-            */
-            toAnimate.X1 = origX;
-            toAnimate.Y1 = origY;
+            //if ( origX != 0 && origY != 0)
+            //{
+                /*
+                DoubleAnimation opacityAnimation = new DoubleAnimation();
+                opacityAnimation.From = toAnimate.Opacity;                                 // get current grid location
+                opacityAnimation.To = 1;                    // set new grid location
+                opacityAnimation.Duration = new Duration(TimeSpan.FromSeconds(.5));     // set translation time
+                toAnimate.BeginAnimation(Line.OpacityProperty, opacityAnimation);          // animate movement
+                */
+                toAnimate.X1 = origX;
+                toAnimate.Y1 = origY;
 
-            Storyboard sb = new Storyboard();
-            DoubleAnimation da1 = new DoubleAnimation(toAnimate.X2, destX, new Duration(TimeSpan.FromSeconds(.5)));
-            DoubleAnimation da = new DoubleAnimation(toAnimate.Y2, destY, new Duration(TimeSpan.FromSeconds(.5)));
-            Storyboard.SetTargetProperty(da, new PropertyPath("(Line.Y2)"));
-            Storyboard.SetTargetProperty(da1, new PropertyPath("(Line.X2)"));
-            sb.Children.Add(da);
-            sb.Children.Add(da1);
+                Storyboard sb = new Storyboard();
+                DoubleAnimation da1 = new DoubleAnimation(toAnimate.X2, destX, new Duration(TimeSpan.FromSeconds(.5)));
+                DoubleAnimation da = new DoubleAnimation(toAnimate.Y2, destY, new Duration(TimeSpan.FromSeconds(.5)));
+                Storyboard.SetTargetProperty(da, new PropertyPath("(Line.Y2)"));
+                Storyboard.SetTargetProperty(da1, new PropertyPath("(Line.X2)"));
+                sb.Children.Add(da);
+                sb.Children.Add(da1);
 
-            //MessageBox.Show("HOY");
-            toAnimate.BeginStoryboard(sb);
+                //MessageBox.Show("HOY");
+                toAnimate.BeginStoryboard(sb);
 
-
+            //} else
+            //{
+            //    Console.WriteLine("Line:"+toAnimate);
+            //}
         }
 
         private void Graphics_main(TreeNode<List<String>> filteredStruct)
@@ -465,9 +759,14 @@ namespace VRLauncherInCsharp
 
                 customCanvas = new Canvas();
                 customCanvas.Width = 1900;
-                customCanvas.Height = 1050;
+                customCanvas.Height = 1040;
+
+                //customCanvas.Width = 1280;
+                //customCanvas.Height = 800;
+
                 customCanvas.Background = Brushes.LightSteelBlue;
 
+                string parent = "";
                 int i = 1;
                 int j = filteredStruct.ElementsIndex.Count;
                 but_Clicked = new Boolean[j];
@@ -478,13 +777,14 @@ namespace VRLauncherInCsharp
                 while (i < j)
                 {
                     butList[i] = new Button();
-   
+
                     if (filteredStruct.ElementAt(i).Data.Count == 4)    //Nodes
                     {
                         butList[i].Style = (Style)FindResource("NodeOrange");
                         butList[i].FontSize = 16;
                         butList[i].Height = 100;
                         butList[i].Width = 100;
+                        parent = butList[i].Uid = Convert.ToString(filteredStruct.ElementAt(i).Data[0]);
                         butList[i].Content = filteredStruct.ElementAt(i).Data[2];
                         butList[i].ToolTip = butList[i].Content;
                     }
@@ -494,6 +794,7 @@ namespace VRLauncherInCsharp
                         butList[i].FontSize = 16;
                         butList[i].Height = 80;
                         butList[i].Width = 80;
+                        butList[i].Uid = parent;
                         butList[i].Content = filteredStruct.ElementAt(i).Data[1];
                         butList[i].ToolTip = butList[i].Content;
                     }
@@ -510,10 +811,10 @@ namespace VRLauncherInCsharp
                     //L[i].HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                     Canvas.SetZIndex(L[i], -1);
                     customCanvas.Children.Add(L[i]);
-                    //L[i].X1 = customCanvas.Width / 2.0;
-                    //L[i].Y1 = customCanvas.Height / 2.0;
-                    //L[i].X2 = customCanvas.Width / 2.0;
-                    //L[i].Y2 = customCanvas.Height / 2.0;
+                    L[i].X1 = customCanvas.Width / 2.0;
+                    L[i].Y1 = customCanvas.Height / 2.0;
+                    L[i].X2 = customCanvas.Width / 2.0;
+                    L[i].Y2 = customCanvas.Height / 2.0;
                     
                     //Panel.SetZIndex(L, -1);
                     i++;
@@ -521,6 +822,11 @@ namespace VRLauncherInCsharp
 
                 //0th Button
                 L[0] = new Line();
+                L[0].X1 = customCanvas.Width / 2.0;
+                L[0].Y1 = customCanvas.Height / 2.0;
+                L[0].X2 = customCanvas.Width / 2.0;
+                L[0].Y2 = customCanvas.Height / 2.0;
+
                 butList[0] = new Button();
                 butList[0].Style = (Style)FindResource("NodeGreen");
                 butList[0].FontSize = 16;
@@ -528,10 +834,10 @@ namespace VRLauncherInCsharp
                 butList[0].Width = 120;
                 butList[0].Content = "Start";
                 butList[0].ToolTip = butList[0].Content;
-
                 Canvas.SetLeft(butList[0], (customCanvas.Width / 2) - butList[0].Width / 2);
                 Canvas.SetTop(butList[0], (customCanvas.Height / 2) - butList[0].Height / 2);
                 customCanvas.Children.Add(butList[0]);
+
                 Canvas.SetZIndex(L[0], -1);
                 customCanvas.Children.Add(L[0]);
 

@@ -17,8 +17,8 @@ ID,parent_ID,Name,Last_Node
 15,0,Without Bows,0
 16,14,With movement,1
 17,14,No movement,1
-18,15,With movement,0
-19,15,No movement,0
+18,15,With movement3,0
+19,15,No movement3,0
 20,18,Teleport,1
 21,18,Sliding,1
 22,18,Waypoints,1
@@ -29,38 +29,59 @@ ID,parent_ID,Name,Last_Node
 27,2,Asymmetrical,1
 28,3,Uses Paddle,1
 29,3,Uses Stick-like,1
-30,3,Others,1
+30,3,Others1,1
 31,4,Puzzle,0
 32,4,Cooking,1
-33,4,Others,0
-34,33,With movement,0
-35,33,No movement,0
-36,34,Teleport,1
-37,34,Sliding,1
-38,34,Move in Place,1
-39,34,6 Degrees of Freedom,1
-40,34,Swing,1
-41,34,Waypoints,1
-42,35,Standing,1
-43,35,Seated,1
-44,10,Shooter,1
+33,4,Others2,0
+34,33,With movement1,0
+35,33,No movement1,0
+36,34,Teleport1,1
+37,34,Sliding1,1
+38,34,Move in Place1,1
+39,34,6 Degrees of Freedom1,1
+40,34,Swing1,1
+41,34,Waypoints1,1
+42,35,Standing1,1
+43,35,Seated1,1
+44,10,Shooter1,1
 45,10,Non-shooter,1
-46,11,With movement,0
-47,11,No movement,0
-48,45,Teleport,1
-49,45,Sliding,1
-50,45,Move in Place,1
-51,45,Waypoints,1
-52,45,Swing,1
-53,45,6 Degrees of Freedom,1
-54,46,Standing,1
-55,46,Seated,1
+46,11,With movement2,0
+47,11,No movement2,1
+48,47,Teleport2,1
+49,47,Sliding2,1
+50,47,Move in Place,1
+51,47,Waypoints2,1
+52,47,Swing,1
+53,47,6 Degrees of Freedom,1
+54,46,Standing2,1
+55,46,Seated2,1
 56,12,Tower Defense,1
 57,12,Non-TD,1
 58,31,Seated,1
-59,31,Standing,1
-60,31,Teleport,1
+59,31,Standing3,1
+60,31,Teleport3,1
 61,5,Experience,1
 62,5,Movies,1
 63,9,Standing,1
 64,9,Seating,1
+65,9,1450,1
+66,9,1451,1
+67,9,1452,1
+68,9,1453,1
+69,9,1454,1
+70,9,1455,1
+71,9,1456,1
+72,9,1457,1
+73,9,1458,1
+74,9,1459,1
+75,9,1460,1
+76,9,1461,1
+77,9,1462,1
+78,9,1463,1
+79,9,1464,1
+80,9,1465,1
+81,9,1466,1
+82,9,1467,1
+83,9,1468,1
+84,9,1469,1
+85,9,1470,1
