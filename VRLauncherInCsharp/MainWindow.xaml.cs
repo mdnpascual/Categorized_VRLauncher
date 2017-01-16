@@ -348,6 +348,7 @@ namespace VRLauncherInCsharp
                             }
                             i++;
                         }
+                        Canvas.SetZIndex(butList[0], 2);
                     }));
                 }
                 else
@@ -367,6 +368,7 @@ namespace VRLauncherInCsharp
                                     animateLine(L[i], L[i].X1, L[i].Y1, customCanvas.Width / 2, customCanvas.Height / 2);
                                 //}                                
                                 animateNode(0, 0, butList[i]);
+                                Canvas.SetZIndex(butList[0], 2);
                             }
                             i++;
                         }
@@ -473,18 +475,24 @@ namespace VRLauncherInCsharp
 
                         while (i < j)
                         {
-                            //if (filteredStruct.ElementAt(i).Data[1].Equals(parent))
-                            //{
+                            /*if (filteredStruct.ElementAt(i).Data[1].Equals(parent))
+                            {
                             if ((filteredStruct.ElementAt(i).Data.Count == 4 && filteredStruct.ElementAt(i).Data[1].Equals(parent))
                                 || (filteredStruct.ElementAt(i).Data.Count == 5 && filteredStruct.ElementAt(i).Data[3].Equals(parent))
                                 )
                             {
                                 children++;
                             }
+                             * */
+                            if (filteredStruct.ElementAt(i).Data[0].Equals(parent))
+                            {
+                                children = filteredStruct.ElementAt(i).Children.Count;
+                                break;
+                            }
                             i++;
                         }
+
                         range = j;
-                        
                         double degree = 360.0 / children;
                         
                         if (x < 0 && y == 0)
@@ -527,9 +535,13 @@ namespace VRLauncherInCsharp
                             }
                         }
 
+                        
                         L[0].Visibility = System.Windows.Visibility.Visible;
-                        animateLine(L[0], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + ly);
-                        animateNode(x, y, butList[0]);
+                        //animateLine(L[0], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + ly);
+                        //animateNode(x, y, butList[0]);
+                        animateLine(L[0], customCanvas.Width / 2, customCanvas.Height / 2, customCanvas.Width / 2, customCanvas.Height / 2);
+                        animateNode(0, 0, butList[0]);
+                        Canvas.SetZIndex(butList[0], -1);
                         
                         i = currentpos;
                         j = range;
@@ -792,8 +804,8 @@ namespace VRLauncherInCsharp
                     {
                         butList[i].Style = (Style)FindResource("NodeYellow");
                         butList[i].FontSize = 16;
-                        butList[i].Height = 80;
-                        butList[i].Width = 80;
+                        butList[i].Height = 100;
+                        butList[i].Width = 100;
                         butList[i].Uid = parent;
                         butList[i].Content = filteredStruct.ElementAt(i).Data[1];
                         butList[i].ToolTip = butList[i].Content;
@@ -809,7 +821,7 @@ namespace VRLauncherInCsharp
                     //L[i].Stroke = Brushes.Black;
                     //L[i].VerticalAlignment = System.Windows.VerticalAlignment.Top;
                     //L[i].HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-                    Canvas.SetZIndex(L[i], -1);
+                    Canvas.SetZIndex(L[i], -2);
                     customCanvas.Children.Add(L[i]);
                     L[i].X1 = customCanvas.Width / 2.0;
                     L[i].Y1 = customCanvas.Height / 2.0;
@@ -830,15 +842,15 @@ namespace VRLauncherInCsharp
                 butList[0] = new Button();
                 butList[0].Style = (Style)FindResource("NodeGreen");
                 butList[0].FontSize = 16;
-                butList[0].Height = 120;
-                butList[0].Width = 120;
+                butList[0].Height = 160;
+                butList[0].Width = 160;
                 butList[0].Content = "Start";
                 butList[0].ToolTip = butList[0].Content;
                 Canvas.SetLeft(butList[0], (customCanvas.Width / 2) - butList[0].Width / 2);
                 Canvas.SetTop(butList[0], (customCanvas.Height / 2) - butList[0].Height / 2);
                 customCanvas.Children.Add(butList[0]);
 
-                Canvas.SetZIndex(L[0], -1);
+                Canvas.SetZIndex(L[0], -2);
                 customCanvas.Children.Add(L[0]);
 
                 //Initializes event handlers for all nodes
