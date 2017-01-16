@@ -390,7 +390,7 @@ namespace VRLauncherInCsharp
                 cmd.StartInfo.UseShellExecute = false;
                 cmd.Start();
 
-                if (found.Data[3].Equals(""))
+                if (found.Data[2].Equals(""))
                 {
                     cmd.StandardInput.WriteLine(cmdString);
                 }
