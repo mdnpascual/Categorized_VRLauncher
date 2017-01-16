@@ -522,7 +522,7 @@ namespace VRLauncherInCsharp
                         i = currentpos;
                         j = range;
                         int k = 0;
-
+                        /*
                         if (k == 0 && cposx == 0 && cposy > 0)
                         {
                             k = 3;
@@ -563,7 +563,7 @@ namespace VRLauncherInCsharp
                             //3
                             k = 4;
                         }
-
+                        */
                         int padding = 200;
                         i = 1;
 
@@ -586,14 +586,14 @@ namespace VRLauncherInCsharp
                                     switch (k % 8)
                                     {
                                         case 0:
-                                            x = Math.Abs(butList[i].Margin.Left) + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))));
+                                            x = butList[i].Margin.Left + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))));
                                             y = 0;
-                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + butList[i].Margin.Left, (customCanvas.Height / 2) + y);
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y);
                                             break;
                                         case 1:
-                                            x = Math.Abs(butList[i].Margin.Left) + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                            x = butList[i].Margin.Left + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
                                             y = butList[i].Margin.Top + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
-                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + butList[i].Margin.Left, (customCanvas.Height / 2) + y);
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y);
                                             break;
                                         case 2:
                                             x = 0;
@@ -632,14 +632,14 @@ namespace VRLauncherInCsharp
                                     switch (k % 8)
                                     {
                                         case 0:
-                                            x = Math.Abs(butList[i].Margin.Left) + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))));
+                                            x = butList[i].Margin.Left + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))));
                                             y = 0;
-                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + butList[i].Margin.Left, (customCanvas.Height / 2) + y);
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y);
                                             break;
                                         case 1:
-                                            x = Math.Abs(butList[i].Margin.Left) + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
+                                            x = butList[i].Margin.Left + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Cos((Math.PI / 180) * 45));
                                             y = butList[i].Margin.Top + (Double)((175 + ((padding - 100) * Math.Floor(k / 8.0))) * Math.Sin((Math.PI / 180) * 45));
-                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x + butList[i].Margin.Left, (customCanvas.Height / 2) + y);
+                                            animateLine(L[i], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y);
                                             break;
                                         case 2:
                                             x = 0;
