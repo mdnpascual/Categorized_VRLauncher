@@ -103,13 +103,13 @@ namespace VRLauncherInCsharp
             this.Dispatcher.Invoke((Action)(() => { Progress.Value = 32; }));
 
             this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Reading Owned VR Games"; }));
-            List<List<String>> filteredList = Get_Game_List(gamedb);
+            List<List<String>> filteredList2 = Get_Game_List(gamedb);
 
             this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Generating Tree Structure"; }));
             TreeNode<List<String>> treeStruct = List_to_Tree(nodeList);
 
             this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Adding Games to Tree Structure"; }));
-            filteredStruct = Add_Games_to_Tree(treeStruct, filteredList);
+            filteredStruct = Add_Games_to_Tree(treeStruct, filteredList2);
             //filteredStruct = Add_Games_to_Tree(treeStruct, gamedb);
 
             ///////////MOVE THIS CODE BLOCK///////////
@@ -256,9 +256,15 @@ namespace VRLauncherInCsharp
                 int l = category.Length;
 
                 while (k < l)
-                {                 
+                {
+                    List<String> node2 = new List<String>();
+                    node2.Add(node[0]);
+                    node2.Add(node[1]);
+                    node2.Add(node[2]);
+                    node2.Add(category[k]);
+                    node2.Add(node[4]);
                     TreeNode<List<String>> found = treeStruct.FindTreeNode(link => link.Data.Count != 0 && link.Data[0].Equals(category[k]));
-                    found.AddChild(node);
+                    found.AddChild(node2);
                     k++;
                 }
                 i++;
@@ -376,6 +382,10 @@ namespace VRLauncherInCsharp
                 }
                 //butList[0].Visibility = System.Windows.Visibility.Hidden;
             }
+            else if (node.Style.Equals((Style)FindResource("NodeYellow")))
+            {
+
+            }
             else
             {
                 if (!(node.Margin.Left == 0 && node.Margin.Top == 0))
@@ -472,6 +482,8 @@ namespace VRLauncherInCsharp
                         i = currentpos;
                         int children = 0;
                         int range = 0;
+                        TreeNode<List<String>> clickedNode = null;
+                        
 
                         while (i < j)
                         {
@@ -487,6 +499,7 @@ namespace VRLauncherInCsharp
                             if (filteredStruct.ElementAt(i).Data[0].Equals(parent))
                             {
                                 children = filteredStruct.ElementAt(i).Children.Count;
+                                clickedNode = filteredStruct.ElementAt(i);
                                 break;
                             }
                             i++;
@@ -500,6 +513,7 @@ namespace VRLauncherInCsharp
                             lx += 40;
                         }
 
+                        /*
                         lx = ly = 0;
                         if (children>=7)
                         {
@@ -534,7 +548,7 @@ namespace VRLauncherInCsharp
                                 x += 250;
                             }
                         }
-
+                        */
                         
                         L[0].Visibility = System.Windows.Visibility.Visible;
                         //animateLine(L[0], customCanvas.Width / 2, customCanvas.Height / 2, (customCanvas.Width / 2) + x, (customCanvas.Height / 2) + y + ly);
@@ -590,6 +604,22 @@ namespace VRLauncherInCsharp
                         }
 
                         int padding = 200;
+
+                        /*
+                        i = 0;
+                        j = clickedNode.Children.Count;
+                        while (i < j)
+                        {
+                            int m = 0, n = 0;
+                            
+                            L[i].Visibility = System.Windows.Visibility.Visible;
+                            butList[i].Visibility = System.Windows.Visibility.Visible;
+
+                            i++;
+                        }
+                         * */
+                        i = 1;
+
                         while (i < j)
                         {
                             if ((filteredStruct.ElementAt(i).Data.Count == 4 && filteredStruct.ElementAt(i).Data[1].Equals(parent))
