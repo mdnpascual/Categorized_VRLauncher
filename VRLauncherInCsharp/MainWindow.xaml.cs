@@ -253,17 +253,20 @@ namespace VRLauncherInCsharp
                 int k = 0;
                 int l = category.Length;
 
-                while (k < l)
+                if (!node[4].Equals("1"))
                 {
-                    List<String> node2 = new List<String>();
-                    node2.Add(node[0]);
-                    node2.Add(node[1]);
-                    node2.Add(node[2]);
-                    node2.Add(category[k]);
-                    node2.Add(node[4]);
-                    TreeNode<List<String>> found = treeStruct.FindTreeNode(link => link.Data.Count != 0 && link.Data[0].Equals(category[k]));
-                    found.AddChild(node2);
-                    k++;
+                    while (k < l)
+                    {
+                        List<String> node2 = new List<String>();
+                        node2.Add(node[0]);
+                        node2.Add(node[1]);
+                        node2.Add(node[2]);
+                        node2.Add(category[k]);
+                        node2.Add(node[4]);
+                        TreeNode<List<String>> found = treeStruct.FindTreeNode(link => link.Data.Count != 0 && link.Data[0].Equals(category[k]));
+                        found.AddChild(node2);
+                        k++;
+                    }
                 }
                 i++;
             }
