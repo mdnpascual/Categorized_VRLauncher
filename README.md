@@ -35,3 +35,11 @@ Current limitation:
 - Game Title must not have a comma on it
 - Only detects owned games in steam (no non-steam executables atm)
 - Don't have implementation of command arguments
+
+Planned features:
+- Don't show nodes if you don't own any games on that category
+- Ability to hide games you own by Right click
+- Game description panel
+- Add non-steam games
+- Add page 2 or more when games+nodes exceed 32 being out of bounds of program
+- Change tooltip font to be bigger

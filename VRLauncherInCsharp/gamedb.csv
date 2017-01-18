@@ -79,6 +79,8 @@ ID,Name,CustomExec,Categories,Hidden
 448280,Job Simulator,,42,0
 448880,Spells 'n' Stuff,,1,0
 450390,The Lab: Secret Shop,,61,0
+450390,The Lab:Xortex,,25,0
+450390,The lab: longbow,,17,0
 450540,H3VR,,13|20,0
 451010,Kittypocalypse,,56,0
 451520,theBlu,,61,0
@@ -130,7 +132,7 @@ ID,Name,CustomExec,Categories,Hidden
 493100,Bellyots,,24,0
 493380,Chess VR,,57,0
 493410,Steampuff: Phinegan's factory,,24,0
-494150,Thrill of the fight,,30,0
+494150,Thrill of the fight,,67,0
 494780,Mageworks,,1|48,0
 494810,VR: Vacate the room,,6,0
 494830,Vivespray,,42,0
@@ -180,7 +182,7 @@ ID,Name,CustomExec,Categories,Hidden
 517130,Soundboxing,,63,0
 517160,Richie's Plank Experience,,61,0
 517860,Fly to Kuma Maker,,59,0
-518000,Edge Guardian,,30,0
+518000,Edge Guardian,,67,0
 518580,Accounting,,48,0
 519940,Kubz VR,,59,0
 520010,Climbey,,26|30,0
@@ -198,14 +200,14 @@ ID,Name,CustomExec,Categories,Hidden
 524060,Block Wave VR,,59,0
 524120,Raptor Valley,,21,0
 524380,Yore VR,,1|13|49,0
-524690,Bitslap,,30,0
+524690,Bitslap,,67,0
 525910,Cockroach VR,,24,0
 526240,Cloudbound,,40,0
 526440,vRhythm,,64,0
 526750,The Gleam,,6,0
 527580,Pitch Hit Baseball,,28,0
 527720,Keep Defending,,56,0
-528990,Basketball babe,,30,0
+528990,Basketball babe,,66,0
 529040,Fine China,,42,0
 529150,Lazerbait,,57,0
 529360,Void rangers,,24,0
@@ -248,6 +250,81 @@ ID,Name,CustomExec,Categories,Hidden
 571500,Magic Hour,,61,0
 572870,Gotham Gansta,,27,0
 575210,Happy drummer VR,,64,0
+573270,Alcatraz: VR Escape Room,,6,0
+572660,Nick,,24,0
+574040,Christmas Massacre VR,,24,0
+539090,Clazer,,19|30|61,0
+572130,Flock VR,,61,0
+570230,Deathlike: Awakening,,45,0
+570340,GoWings Safari,,23,0
+566640,DinoFense,,24,0
+560010,Starship Survivor,,20,0
+573610,DOOORS VR,,6,0
+568800,Summer times Afternoon,,61,0
+420020,Eye of the Owl - Bosch VR,,61,0
+553490,Wild Game Hunter VR,,20,0
+543920,Weird creatures,,20,0
+552340,Danger Room,,24,0
+566870,VR Monster Awakens,,13,0
+559140,Pinheads Bowling VR,,30,0
+573360,Warka Flarka Flim Flam,,66,0
+561080,The Price of Freedom,,61|54,0
+570000,Old Friend,,62,0
+570910,Crazy Max VR,,20,0
+560970,Fireworks Desert Blast,,42,0
+571180,Holiday Simulator : Wacky Sleigh Ride,,43,0
+571230,Domino Craft VR,,13|60,0
+552870,aMAZEing adventures,,59,0
+556640,Gladius,,7,0
+565030,Blueshift,,23,0
+570060,TacoFace,,42,0
+555730,Robot City Stadium,,26|30,0
+537140,Nemesis Perspective,,27,0
+553530,Teratini VR,,1|50,0
+566350,Quizality - Christmas!,,58,0
+535190,Chunky Orbits,,13,0
+572000,President Erect VR,,42,0
+556700,Heavy Impact,,30,0
+517620,Gooblins,,24,0
+566060,The Crypts of Anak Shaba - VR,,7|49,0
+462670,VR-Xterminator,,24,0
+571050,Santa Sling,,43,0
+406890,Fruit Golf,,26|29,0
+408250,Eagle Flight,,23|26,0
+564920,Smoots Tennis Survival Zombie,,28,0
+466520,Drone Hunter VR,,24,0
+563160,VR the Anime Girls Method,,30|42,0
+553690,Dustoff Heli Rescue 2,,43|55,0
+498460,Abduction Episode 1: Her Name was Sarah,,45,0
+565190,Spacecats with Lasers VR,,25,0
+525680,Deisim,,13,0
+570600,Binary Trigger,,24,0
+495740,Random Journey,,43,0
+568690,Smash Party VR,,42,0
+552960,Fastigium,,44,0
+566270,Child Of Ault,,56,0
+565200,Gem Monster,,59,0
+513160,Escape from Zellman Orbital,,6,0
+554940,VR Apocalypse,,21,0
+542110,FriendShip,,26,0
+513270,Lockdown: Stand Alone,,21,0
+518640,Dragon Skies VR,,1,0
+468740,Snow Fortress,,25|26|56,0
+540740,Perfect,,61,0
+561230,Special Delivery,,37,0
+560870,Singing Stones VR,,49|61,0
+565670,Kunlun Fight,,67,0
+552300,Soldier Sortie :VR Agent 006,,21,0
+553110,Alpine Ski VR,,30,0
+558850,Children of Colossus,,1|7,0
+566170,Elephant Express VR,,59,0
+569330,Flight Simulator: VR,,13|61,0
+523550,Defense of Castle Chilly,,17,0
+567730,Merry Snowballs,,25,0
+506930,CoLab,,60,0
+568030,Last Mage Standing,,7|24,0
+561360,VR Invaders,,25,0
+416090,Caretaker Retribution,,23,0
 581920,Dunk It (VR Basketball),,30,0
 405340,Siegecraft Commander,,57,0
 517400,VR Amazing Files: Horror Hospital,,45,0
