@@ -28,16 +28,18 @@ If you want to use a different steamID or steam Web API Key, delete the filename
 
 ------------------------
 
+![In Action](http://puu.sh/trodS/c5193accce.gif)
 ![Root with level 1 children](http://puu.sh/tnZrr/880d2ae96b.jpg)
-![Nodes with associated games with it](http://puu.sh/tnZsl/229ef0decd.jpg)
+
 
 Current limitation:
+- SteamID profiles must be public
 - Game Title must not have a comma on it
 - Only detects owned games in steam (no non-steam executables atm)
 - Don't have implementation of command arguments
 
 Planned features:
-- Don't show nodes if you don't own any games on that category
+- Add multiple steamID that you are family sharing
 - Ability to hide games you own by Right click
 - Game description panel
 - Add non-steam games

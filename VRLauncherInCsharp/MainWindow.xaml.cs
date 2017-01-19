@@ -107,28 +107,11 @@ namespace VRLauncherInCsharp
             TreeNode<List<String>> treeStruct = List_to_Tree(nodeList);
 
             this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Adding Games to Tree Structure"; }));
-            filteredStruct = Add_Games_to_Tree(treeStruct, filteredList2);
-            //filteredStruct = Add_Games_to_Tree(treeStruct, gamedb);
+            //filteredStruct = Add_Games_to_Tree(treeStruct, filteredList2);
+            TreeNode<List<String>> gamesAdded = Add_Games_to_Tree(treeStruct, filteredList2);
 
-            /*
-            ///////////MOVE THIS CODE BLOCK///////////
-            int i = 1;
-            int j = filteredStruct.ElementsIndex.Count;
-
-            while (i < j)
-            {
-                if (filteredStruct.ElementAt(i).Data.Count == 4)
-                {
-                    Console.WriteLine(filteredStruct.ElementAt(i).Data[2]);
-                }
-                else
-                {
-                    Console.WriteLine(filteredStruct.ElementAt(i).Data[1]);
-                }
-                i++;
-            }
-            ///////////MOVE THIS CODE BLOCK///////////
-             * */
+            this.Dispatcher.Invoke((Action)(() => { ParserText.Content = "Removing empty nodes"; }));
+            filteredStruct = Cleanup_Nodes(gamesAdded);
 
             Graphics_main(filteredStruct);
 
@@ -272,7 +255,26 @@ namespace VRLauncherInCsharp
             }
             return treeStruct;
         }
+        
+        private TreeNode<List<String>> Cleanup_Nodes(TreeNode<List<String>> treeStruct)
+        {
+            int j = treeStruct.ElementsIndex.Count, i = 0, k = j;
+            this.Dispatcher.Invoke((Action)(() => { Progress.Value = 75 + (i / (double)k) * 15; }));
 
+            while (j > 0)
+            {
+                if (treeStruct.ElementAt(j-1).Data.Count == 4 && treeStruct.ElementAt(j-1).Children.Count == 0)
+                {
+                    treeStruct.ElementsIndex.Remove(treeStruct.ElementAt(j - 1));
+                    treeStruct.ElementAt(j - 1).Parent.Children.Remove(treeStruct.ElementAt(j - 1));
+                    continue;
+                }
+                i++;j--;
+            }
+
+            return treeStruct;
+        }
+        
         private void Game_Execute(String command)
         {
 
