@@ -31,6 +31,7 @@ If you want to use a different steamID or steam Web API Key, delete the filename
 ![In Action](http://puu.sh/trodS/c5193accce.gif)
 ![Root with level 1 children](http://puu.sh/tnZrr/880d2ae96b.jpg)
 
+Space in the game names are added with a Newline in the button. If you want to group 2 or more words in a line, replace the space with a special space character by doing ALT+255 in numpad
 
 Current limitation:
 - SteamID profiles must be public

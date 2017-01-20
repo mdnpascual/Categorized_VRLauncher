@@ -176,7 +176,7 @@ namespace VRLauncherInCsharp
 
         private List<List<String>> CSV_Parser(String filename)
         {
-            StreamReader reader = new StreamReader(File.OpenRead(filename));
+            StreamReader reader = new StreamReader(File.OpenRead(filename), System.Text.Encoding.Default, true);
             String line = reader.ReadLine();   //Waste reading 1 line
             int i = 0;
 
@@ -773,7 +773,31 @@ namespace VRLauncherInCsharp
                         butList[i].Height = 100;
                         butList[i].Width = 100;
                         butList[i].Uid = parent;
-                        butList[i].Content = filteredStruct.ElementAt(i).Data[1];
+
+                        String[] toSplit = filteredStruct.ElementAt(i).Data[1].Split(' ');
+                        String final = "";
+                        int ii = 0;
+                        if (toSplit.Length != 1)
+                        {
+                            while (ii < toSplit.Length)
+                            {
+                                if (ii == toSplit.Length - 1)
+                                {
+                                    final += toSplit[ii];
+                                }
+                                else
+                                {
+                                    final += toSplit[ii] + Environment.NewLine;
+                                }
+                                ii++;
+                            }
+                            butList[i].Content = final;
+                        }
+                        else
+                        {
+                            butList[i].Content = filteredStruct.ElementAt(i).Data[1];
+                        }
+
                         butList[i].ToolTip = butList[i].Content;
                     }
 
