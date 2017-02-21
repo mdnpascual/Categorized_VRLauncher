@@ -24,18 +24,17 @@ When running the program for the first time, it will ask for your SteamID and St
 
 Press the Save Information and everytime you run the program, it will remember your steamID and steam web api key.
 
-If you want to use a different steamID or steam Web API Key, delete the filename settings.txt
+**If you want to use a different steamID or steam Web API Key, delete the filename settings.txt**
 
 ------------------------
 
-![In Action](http://puu.sh/trodS/c5193accce.gif)
-![Root with level 1 children](http://puu.sh/tnZrr/880d2ae96b.jpg)
+![In Action](http://puu.sh/udI3c/f3561637e1.gif)
 
 Space in the game names are added with a Newline in the button. If you want to group 2 or more words in a line, replace the space with a special space character by doing ALT+255 in numpad
 
-Current limitation:
+Current limitations:
 - SteamID profiles must be public
-- Game Title must not have a comma on it
+- Game Title or Categories must not have a comma on it
 - Only detects owned games in steam (no non-steam executables atm)
 - Don't have implementation of command arguments
 
@@ -43,6 +42,7 @@ Planned features:
 - Add multiple steamID that you are family sharing
 - Ability to hide games you own by Right click
 - Game description panel
-- Add non-steam games
+- Ability to add and execute non-steam games
 - Add page 2 or more when games+nodes exceed 32 being out of bounds of program
 - Change tooltip font to be bigger
+- Implement a per game SS value (Will Check if steamVR SS Values exceed the maximum SS value you have on a particular game)
