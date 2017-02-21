@@ -4,8 +4,8 @@ ID,parent_ID,Name,Last_Node
 2,\N,Multiplayer,0
 3,\N,Sports,0
 4,\N,Casual,0
-5,\N,Experience/Movies,0
-6,\N,Escape Rooms,0
+5,\N,Unique,0
+6,\N,Escape Rooms,1
 7,\N,Swords,1
 8,\N,Driving,1
 9,\N,Music/Rhythm,0
@@ -46,15 +46,15 @@ ID,parent_ID,Name,Last_Node
 44,10,Shooter1,1
 45,10,Non-shooter,1
 46,11,With movement2,0
-47,11,No movement2,1
-48,47,Teleport2,1
-49,47,Sliding2,1
-50,47,Move in Place,1
-51,47,Waypoints2,1
-52,47,Swing,1
-53,47,6 Degrees of Freedom,1
-54,46,Standing2,1
-55,46,Seated2,1
+47,11,No movement2,0
+48,46,Teleport2,1
+49,46,Sliding2,1
+50,46,Move in Place,1
+51,46,Waypoints2,1
+52,46,Swing,1
+53,46,6 Degrees of Freedom,1
+54,47,Standing2,1
+55,47,Seated2,1
 56,12,Tower Defense,1
 57,12,Non-TD,1
 58,31,Seated,1
@@ -70,3 +70,9 @@ ID,parent_ID,Name,Last_Node
 68,18,Move in place2,1
 69,34,Flying3,1
 70,0,Spaceships,1
+71,70,3rd Person,1
+72,70,1st Person,1
+73,9,Visualizer,1
+74,\N,On Rails,1
+75,3,Climbing,1
+76,5,Educational,1

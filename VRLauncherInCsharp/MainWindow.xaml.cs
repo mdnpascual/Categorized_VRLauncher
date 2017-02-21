@@ -173,7 +173,7 @@ namespace VRLauncherInCsharp
             }
             return filtered;
         }
-
+        
         private List<List<String>> CSV_Parser(String filename)
         {
             StreamReader reader = new StreamReader(File.OpenRead(filename), System.Text.Encoding.Default, true);
