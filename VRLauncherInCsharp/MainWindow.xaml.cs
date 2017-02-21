@@ -383,7 +383,7 @@ namespace VRLauncherInCsharp
             }
             else if (node.Style.Equals((Style)FindResource("NodeYellow")))
             {
-                TreeNode<List<String>> found = filteredStruct.FindTreeNode(link => link.Data.Count == 5 && link.Data[1].Equals(node.Content));
+                TreeNode<List<String>> found = filteredStruct.FindTreeNode(link => link.Data.Count == 5 && link.Data[1].Equals(unFormatter(node.Content.ToString())));
                 String cmdString = "start steam://rungameid/" + found.Data[0];
 
 
@@ -431,7 +431,7 @@ namespace VRLauncherInCsharp
                         {
                             Console.WriteLine(filteredStruct.ElementAt(i).Data[2]+":"+ butList[i].Uid);
 
-                            if (filteredStruct.ElementAt(i).Data[2].Equals(butName))
+                            if (filteredStruct.ElementAt(i).Data[2].Equals(unFormatter(butName)))
                             {
                                 a = 0;                 
                                 while (a < j)
@@ -763,7 +763,7 @@ namespace VRLauncherInCsharp
                         butList[i].Height = 100;
                         butList[i].Width = 100;
                         parent = butList[i].Uid = Convert.ToString(filteredStruct.ElementAt(i).Data[0]);
-                        butList[i].Content = filteredStruct.ElementAt(i).Data[2];
+                        butList[i].Content = formatter(filteredStruct.ElementAt(i).Data[2]);
                         butList[i].ToolTip = butList[i].Content;
                     }
                     else
@@ -773,31 +773,7 @@ namespace VRLauncherInCsharp
                         butList[i].Height = 100;
                         butList[i].Width = 100;
                         butList[i].Uid = parent;
-
-                        String[] toSplit = filteredStruct.ElementAt(i).Data[1].Split(' ');
-                        String final = "";
-                        int ii = 0;
-                        if (toSplit.Length != 1)
-                        {
-                            while (ii < toSplit.Length)
-                            {
-                                if (ii == toSplit.Length - 1)
-                                {
-                                    final += toSplit[ii];
-                                }
-                                else
-                                {
-                                    final += toSplit[ii] + Environment.NewLine;
-                                }
-                                ii++;
-                            }
-                            butList[i].Content = final;
-                        }
-                        else
-                        {
-                            butList[i].Content = filteredStruct.ElementAt(i).Data[1];
-                        }
-
+                        butList[i].Content = formatter(filteredStruct.ElementAt(i).Data[1]);
                         butList[i].ToolTip = butList[i].Content;
                     }
 
@@ -845,6 +821,54 @@ namespace VRLauncherInCsharp
 
                 mainWindow.Content = customCanvas;
             }));
+        }
+
+        private string formatter(String s)
+        {
+            String[] toSplit = s.Split(' ');
+            String final = "";
+            int ii = 0;
+            if (toSplit.Length != 1)
+            {
+                while (ii < toSplit.Length)
+                {
+                    if (ii == toSplit.Length - 1)
+                    {
+                        final += toSplit[ii];
+                    }
+                    else
+                    {
+                        final += toSplit[ii] + Environment.NewLine;
+                    }
+                    ii++;
+                }
+                return final;
+            }
+            else
+            {
+                return s;
+            }
+        }
+
+        private string unFormatter(String s)
+        {
+            String returner = "";
+            foreach (char c in s)
+            {
+                if (c == '\r' || c == 255)
+                {
+                    returner += " ";
+                }
+                else if (c == '\n')
+                {
+                    continue;
+                }
+                else
+                {
+                    returner += c;
+                }
+            }
+            return returner;
         }
     }
 }
