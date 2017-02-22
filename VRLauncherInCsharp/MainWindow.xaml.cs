@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -35,6 +36,12 @@ namespace VRLauncherInCsharp
         public MainWindow()
         {
             InitializeComponent();
+
+            if (IsUserAdministrator())
+            {
+                MessageBox.Show("Do not run this program as Administrator as it can block the mouse input inside the Steam Dashboard while inside the VR Headset", "Do Not Run as Administrator");
+                System.Environment.Exit(1);
+            }
 
             Thread parserWorker = new Thread(Parse_Game_List);
             parserWorker.IsBackground = true;
@@ -869,6 +876,26 @@ namespace VRLauncherInCsharp
                 }
             }
             return returner;
+        }
+
+        public bool IsUserAdministrator()
+        {
+            bool isAdmin;
+            try
+            {
+                WindowsIdentity user = WindowsIdentity.GetCurrent();
+                WindowsPrincipal principal = new WindowsPrincipal(user);
+                isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                isAdmin = false;
+            }
+            catch (Exception ex)
+            {
+                isAdmin = false;
+            }
+            return isAdmin;
         }
     }
 }
